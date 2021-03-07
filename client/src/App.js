@@ -5,14 +5,16 @@ import Dictaphone from "./modules/control/Dictaphone";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <Dictaphone />
-      </header>
-    </div>
+    <>
+      <Dictaphone />
+      <div className="App">
+        <header className="App-header">
+          <p>
+            Edit <code>src/App.js</code> and save to reload.
+          </p>
+        </header>
+      </div>
+    </>
   );
 }
 

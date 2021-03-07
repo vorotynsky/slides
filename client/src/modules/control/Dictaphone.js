@@ -1,7 +1,9 @@
 import React from 'react'
+import './Dictaphone.css'
 import {PrimaryButton, Stack, Text} from "@fluentui/react";
+import {SharedColors, NeutralColors, DefaultEffects} from '@fluentui/theme';
 
-export default class Dictaphone extends React.Component {
+class DictaphoneInternal extends React.Component {
   recognition
   isAndroid
 
@@ -51,24 +53,56 @@ export default class Dictaphone extends React.Component {
   }
 
   componentDidMount() {
-    navigator.mediaDevices.getUserMedia({ audio: true, video: false }).catch(() => alert("error"));
+    navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+      .catch(reason => this.setState({...this.state, error: reason.toString()}));
 
   }
 
   render() {
-    if (this.recognition == null)
-      return <Text>Speech recognition is not available.</Text>
-
-    if (!this.state?.isRunning)
-      return <PrimaryButton onClick={() => this.recognition.start()} text="Start"/>
+    let error = null
 
     if (!!this.state?.error)
-      return <Text>{this.state.error}</Text>
+      error = this.state.error
+    if (this.recognition == null)
+      error = "Speech recognition is not available."
+
+    if (!!error)
+      return <div className="center"><Text style={{"color": SharedColors.red10}}>{error}</Text></div>
+
+    if (!this.state?.isRunning)
+      return (
+        <div className="center">
+          <PrimaryButton onClick={() => this.recognition.start()} text="Start"/>
+        </div>
+      )
 
     return (
       <Stack>
-        {this.state?.transcripts?.map((x) => <Text>{x}</Text>)}
+        {this.state?.transcripts?.map((x, index) => {
+          let background;
+          if (index + 1 === this.state.transcripts.length) {
+            background = NeutralColors.white;
+            return (
+              <div style={{background: background, boxShadow: DefaultEffects.elevation16, marginTop: "15px" }}>
+                <Text variant="large">{x}</Text>
+              </div>
+            )
+          } else if (index % 2 === 0) {
+            background = NeutralColors.gray10;
+          } else {
+            background = NeutralColors.gray20;
+          }
+          return (<Text variant="mediumPlus" style={{background: background}}>{x}</Text>)
+        })}
       </Stack>
     )
   }
+}
+
+export default function Dictaphone() {
+  return (
+    <div className="chat" style={{background: NeutralColors.gray10}}>
+      <DictaphoneInternal />
+    </div>
+  )
 }

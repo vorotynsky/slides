@@ -1,0 +1,18 @@
+.chat {
+    position: fixed;
+    z-index: 1;
+    height: 100%;
+    width: 360px;
+
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.chat > div {
+    margin: 10px;
+}
+
+.chat .center {
+    align-self: center;
+    text-align: center;
+}
