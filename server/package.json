@@ -1,0 +1,14 @@
+{
+  "name": "slides-client",
+  "version": "0.1.0",
+  "author": "Maxim Vorotynsky",
+  "private": true,
+  "scripts": {
+    "start": "node ./app.js"
+  },
+  "dependencies": {
+    "config": "^3.3.4",
+    "express": "~4.16.1",
+    "mongoose": "^5.11.19"
+  }
+}
