@@ -1,10 +1,15 @@
+const bodyParser = require('body-parser')
 const express = require('express')
 const config = require('config')
 const mongoose = require('mongoose')
 
 const app = express()
 
+app.use(express.urlencoded())
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.json())
+
+app.use('/api/control/speech/', require('./routes/speech.routes'))
 
 const PORT = config.get('port') || 5000
 

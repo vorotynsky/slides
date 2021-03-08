@@ -1,18 +1,16 @@
 import React from "react";
 import './App.css';
 import '@fluentui/react/dist/css/fabric.min.css'
+
 import Dictaphone from "./modules/control/Dictaphone";
+import Images from "./modules/control/Images";
 
 function App() {
   return (
     <>
       <Dictaphone />
       <div className="App">
-        <header className="App-header">
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-        </header>
+          <Images query="чайка"/>
       </div>
     </>
   );

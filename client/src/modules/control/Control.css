@@ -16,3 +16,9 @@
     align-self: center;
     text-align: center;
 }
+
+.imageListGrid {
+    position: relative;
+    float: left;
+    padding: 10px;
+}

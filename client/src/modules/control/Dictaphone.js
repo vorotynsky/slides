@@ -1,5 +1,5 @@
 import React from 'react'
-import './Dictaphone.css'
+import './Control.css'
 import {PrimaryButton, Stack, Text} from "@fluentui/react";
 import {SharedColors, NeutralColors, DefaultEffects} from '@fluentui/theme';
 
