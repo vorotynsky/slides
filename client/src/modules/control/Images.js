@@ -40,7 +40,7 @@ export default function Images(props) {
   return (
     <div>
       <List
-        items={pictures.photos.map(x => x.src.tiny)}
+        items={pictures.photos?.map(x => x.src.tiny)}
         onRenderCell={onRenderCell}
         getItemCountForPage={() => 12}
       />
