@@ -5,6 +5,7 @@ export default function useSpeechRecognition() {
   const [error, setError] = useState(null)
   const [started, setStarted] = useState(false)
   const [transcripts, setTranscripts] = useState([])
+  const [current, setCurrent] = useState("")
 
   useEffect(() => {
     try {
@@ -19,8 +20,15 @@ export default function useSpeechRecognition() {
       setRecognition(recognition)
 
       recognition.onresult = event => {
-        const transcripts = Array.from(event.results, (x) => x[0].transcript)
-        setTranscripts(transcripts)
+        const result = event.results[event.resultIndex]
+        const transcript = result[0].transcript
+        if (result.isFinal) {
+          setTranscripts(prev => prev.concat(transcript))
+          setCurrent("")
+        }
+        else {
+          setCurrent(transcript)
+        }
       }
       recognition.onerror = e => setError(e)
       recognition.onstart = () => setStarted(true)
@@ -38,5 +46,5 @@ export default function useSpeechRecognition() {
     recognition?.start()
   }
 
-  return {transcripts, error, started, start, isSupported: recognition != null }
+  return {transcripts, current, error, started, start, isSupported: recognition != null }
 }

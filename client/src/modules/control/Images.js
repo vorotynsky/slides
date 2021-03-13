@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Stack, Image, List, TextField, Button} from "@fluentui/react";
+import {Image, List} from "@fluentui/react";
 import SpeechApi from "../../api/SpeechApi";
 import './Control.css'
 
@@ -24,7 +24,6 @@ export default function Images(props) {
   }, [query])
 
   const onRenderCell = React.useCallback((item, index) => {
-    console.log(index)
     return (
       <div className="imageListGrid">
         <Image src={item}/>
