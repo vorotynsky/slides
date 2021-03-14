@@ -10,6 +10,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.json())
 
 app.use('/api/control/speech/', require('./routes/speech.routes'))
+app.use('/api/slides/', require('./routes/slides.routes'))
 
 const PORT = config.get('port') || 5000
 
