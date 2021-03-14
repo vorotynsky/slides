@@ -2,12 +2,21 @@ const bodyParser = require('body-parser')
 const express = require('express')
 const config = require('config')
 const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken')
 
 const app = express()
 
 app.use(express.urlencoded())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.json())
+app.use((req, res, next) => {
+  try {
+    if (req.headers.authorization)
+      req.jwt = jwt.verify(req.headers.authorization.split(' ')[1], config.get('jwtSecret'))
+  } finally {
+    next()
+  }
+})
 
 app.use('/api/control/speech/', require('./routes/speech.routes'))
 app.use('/api/slides/', require('./routes/slides.routes'))

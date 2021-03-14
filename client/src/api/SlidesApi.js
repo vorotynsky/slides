@@ -6,4 +6,10 @@ export default class SlidesApi {
       .then(result => result.data)
       .catch(err => {throw new err})
   }
+
+  currentSlide(id) {
+    return axios.get(`/api/slides/getSlide/${id}`)
+      .then(result => result.data)
+      .catch(err => {throw err})
+  }
 }

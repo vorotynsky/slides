@@ -5,6 +5,8 @@ import {Route, Switch} from 'react-router-dom'
 import {Stack, StackItem} from '@fluentui/react'
 import ControlMain from './modules/control/ControlMain'
 import {AuthControlContext, useAuthContext} from './contexts/control'
+import withExplicitParams from './hooks/withExplicitParams'
+import PresentationMain from './modules/presentation/Slide'
 
 function App() {
   const authControl = useAuthContext()
@@ -23,6 +25,7 @@ function AppRouter() {
         <StartSlides />
       </Route>
       <Route path="/control" component={ControlMain}/>
+      <Route path="/presentation/:id" component={withExplicitParams(PresentationMain)} />
 
       <Route>
         <Stack style={{margin: '10%'}}>
