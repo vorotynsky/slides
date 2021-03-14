@@ -8,15 +8,26 @@ const router = Router()
 
 router.post('/create', async (req, res) => {
   try {
-    const {title} = req.body
+    const {title, subTitle, prepared} = req.body
 
-    const presentation = new Presentation({title: title})
+    const presentation = new Presentation({title, subTitle: subTitle || null, prepared: prepared || []})
     await presentation.save()
 
     const id = presentation._id.toString()
     const access = jwt.sign({id}, config.get('jwtSecret'), {expiresIn: "2h"})
 
     res.json({presentation, access})
+  } catch (e) {
+    res.status(500).send()
+  }
+})
+
+router.get('/info', async (req, res) => {
+  try {
+    const {id} = req.jwt
+    if (!id) return res.status(401).send()
+
+    res.json(await Presentation.findById(Types.ObjectId(id)))
   } catch (e) {
     res.status(500).send()
   }
@@ -51,7 +62,7 @@ router.get('/getSlide/:id', async (req, res) => {
     if (!!presentation.current)
       res.json({image: presentation.current})
 
-    res.json({title: presentation.title})
+    res.json({title: presentation.title, subTitle: presentation.subTitle})
   } catch (e) {
     res.status(500).send()
   }

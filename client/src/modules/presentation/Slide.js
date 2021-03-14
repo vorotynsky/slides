@@ -7,14 +7,14 @@ import ImageSlide from "./Image";
 
 function SlideImpl(props) {
   const {id: presentationId, renderId} = props
-  const [data, setData] = useState({title: null, image: null})
+  const [data, setData] = useState({title: null, subTitle: null, image: null})
   const api = new SlidesApi()
 
   useEffect(() => {
     api.currentSlide(presentationId).then(data => setData(data))
   }, [presentationId, renderId])
 
-  console.log(props)
+  console.log(data)
 
   if (!!data.title)
     return <Title {...data}/>

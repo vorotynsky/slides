@@ -6,12 +6,15 @@ import {AuthControlContext} from '../../contexts/control'
 
 export default function StartSlides() {
   const [title, setTitle] = useState("")
+  const [subTitle, setSubTitle] = useState(null)
+  const [prepared, setPrepared] = useState("")
   const history = useHistory()
   const {login} = useContext(AuthControlContext)
 
   function onStart() {
     const api = new SlidesApi()
-    api.createSlides(title).then(x => {
+    const preparedLinks = Array.from(prepared.split('\n').map(x => x.trim()).filter(x => !!x))
+    api.createSlides(title, subTitle, preparedLinks).then(x => {
       login(x.access)
       history.push('/control')
     }).catch(err => {
@@ -28,6 +31,14 @@ export default function StartSlides() {
 
       <StackItem align="center">
         <TextField label="title" required value={title} onChange={(e, value) => {setTitle(value)}} />
+      </StackItem>
+
+      <StackItem align="center">
+        <TextField label="sub title" multiline resizable={false} onChange={(e, value) => {setSubTitle(value)}}  />
+      </StackItem>
+
+      <StackItem align="center">
+        <TextField label="links to prepared slides" multiline onChange={(e, value) => {setPrepared(value)}}  />
       </StackItem>
 
       <StackItem align="center" style={{margin: '10px'}}>
