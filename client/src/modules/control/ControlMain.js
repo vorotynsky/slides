@@ -6,11 +6,13 @@ import useSpeechRecognition from "../../hooks/useSpeechRecognition";
 import {AuthControlContext} from "../../contexts/control";
 import SlidesApi from "../../api/SlidesApi";
 import {Pivot, PivotItem} from "@fluentui/react";
+import {ControlPanel, WordList} from "./ControlPanel";
 
 export default function ControlMain() {
   const speech = useSpeechRecognition()
   const {transcripts, started} = speech
   const [words, updateWords] = useState({})
+  const [settings, changeSettings] = useState({memory: 0.95})
 
   const {token} = useContext(AuthControlContext)
   const api = new SlidesApi()
@@ -21,7 +23,7 @@ export default function ControlMain() {
     let myWords = {...words}
 
     Object.keys(myWords).forEach(key => {
-      myWords[key] *= 0.95
+      myWords[key] *= settings.memory
     })
 
     const updated = last.split(' ')
@@ -49,21 +51,28 @@ export default function ControlMain() {
     console.info(`Speech recognition ${started ? "started" : "stopped"}`)
   }, [started])
 
-  console.log(words)
   const maxWord = Object.keys(words).reduce((a, b) => words[a] > words[b] ? a : b, "");
 
-  console.info(info)
+  const onChange = React.useCallback((name, value) => {
+    changeSettings({...settings, [name]: value})
+  }, [])
 
   return (
     <>
-      <Dictaphone speech={speech} />
+      <Dictaphone speech={speech}/>
       <div className="App">
         <Pivot>
-          <PivotItem headerText="speech based images">
-            <Images query={maxWord} />
+          <PivotItem headerText="Speech based images">
+            <Images query={maxWord}/>
           </PivotItem>
           <PivotItem headerText="Prepared images">
             <PreparedImages pictures={info.prepared}/>
+          </PivotItem>
+          <PivotItem headerText="Control">
+            <ControlPanel onChange={onChange} id={info._id} settings={settings}/>
+          </PivotItem>
+          <PivotItem headerText="Words">
+            <WordList words={words} updateWords={updateWords} />
           </PivotItem>
         </Pivot>
       </div>
